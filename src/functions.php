@@ -1,6 +1,6 @@
 <?php
 
-function getFilesList($arguments, $options)
+function getFilesList($arguments, $options, $shortDescr, $longDescr)
 {
     $from = count($arguments) - 1;
     $files = [];
@@ -16,7 +16,10 @@ function getFilesList($arguments, $options)
             break;
         } elseif (!$isShort && preg_match('/[a-z]+=.{1,}/', $trimmed)) {
             break;
-        } else {
+        } elseif ($isShort && strpos($shortDescr, "{$trimmed}:") !== false) {
+            array_pop($files);
+            break;
+        } elseif (!$isShort && !isset($longDescr[$trimmed])) {
             array_pop($files);
             break;
         }

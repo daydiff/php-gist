@@ -6,8 +6,11 @@ require __DIR__ . '/src/functions.php';
 
 $gist = new Daydiff\Gist\Gist();
 
-$opts = getopt('f:pd:u:l::r:a', ['login', 'filename:', 'private', 'description:', 'update:', 'list', 'read:']);
-$files = getFilesList($argv, $opts);
+$shortDescr = 'f:pd:u:l::r:a';
+$longDescr = ['login', 'filename:', 'private', 'description:', 'update:', 'list', 'read:'];
+
+$opts = getopt($shortDescr, $longDescr);
+$files = getFilesList($argv, $opts, $shortDescr, $longDescr);
 $options = [];
 
 if (isset($opts['login'])) {
@@ -33,7 +36,7 @@ if (isset($opts['d']) || isset($opts['description'])) {
 }
 
 if (isset($opts['p']) || isset($opts['private'])) {
-    $options['public'] = isset($opts['p']) ? !$opts['p'] : !$opts['private'];
+    $options['public'] = isset($opts['p']) ? !!$opts['p'] : !!$opts['private'];
 }
 
 if (isset($opts['f']) || isset($opts['filename'])) {
@@ -44,9 +47,13 @@ if ($files) {
     $data = [];
 
     foreach ($files as $file) {
+        if (!file_exists($file) || !is_readable($file)) {
+            print "Can't read file " . escapeshellarg($file) . "\n";
+            exit;
+        }
         $data[$file] = file_get_contents($file);
     }
     $gist->createMulti($data, $options);
 }
 
-echo "...";
+echo "...\n";
