@@ -10,7 +10,7 @@ $shortDescr = 'f:pd:u:l::r:a';
 $longDescr = ['login', 'filename:', 'private', 'description:', 'update:', 'list', 'read:'];
 
 $opts = getopt($shortDescr, $longDescr);
-$files = getFilesList($argv, $opts, $shortDescr, $longDescr);
+$files = getFilesList($argv, $shortDescr, $longDescr);
 $options = [];
 
 if (isset($opts['login'])) {

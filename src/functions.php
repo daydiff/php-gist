@@ -1,6 +1,6 @@
 <?php
 
-function getFilesList($arguments, $options, $shortDescr, $longDescr)
+function getFilesList($arguments, $shortDescr, $longDescr)
 {
     $from = count($arguments) - 1;
     $files = [];
