@@ -46,7 +46,7 @@ class Gist
             print "GitHub password: ";
             `stty -echo`;
             $password = trim(fread(STDIN, 255));
-            `stty -echo`;
+            `stty echo`;
 
             $auth = base64_encode("{$username}:{$password}");
             $headers = [
